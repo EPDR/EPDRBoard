@@ -1,0 +1,24 @@
+extends layout
+
+block head
+
+block body
+    h1 Hello World
+
+    table
+        thead 
+            tr 
+                th seq  
+                th title
+                th write
+                th date
+                th view count
+        tbody
+            if(data)
+                each content in data
+                    tr
+                        td= content.Seq
+                        td= content.Title
+                        td= content.Writer
+                        td= content.Data
+                        td= content.View_count

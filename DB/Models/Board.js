@@ -1,5 +1,5 @@
-var Sequelize = require('../sequelize.js');
-var sequelize = require('sequelize');
+var Sequelize = require('sequelize');
+var sequelize = require('../sequelize.js');
 
 module.exports = sequelize.define('BOARD', {
   Seq: {
@@ -37,4 +37,8 @@ module.exports = sequelize.define('BOARD', {
     allowNull: true,
     defaultValue: Sequelize.NOW
   }
+},
+{
+  freezeTableName: true, 
+  timestamps: false
 });
