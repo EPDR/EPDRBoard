@@ -18,11 +18,11 @@ block body
         table.table.table-striped
             thead 
                 tr 
-                    th 번호  
+                    th(style='width:5%') 번호  
                     th 제목
-                    th 작성자
-                    th 작성일
-                    th 조회수
+                    th(style='width:15%') 작성자
+                    th(style='width:25%') 작성일
+                    th(style='width:10%') 조회수
             tbody
                 tr(ng-repeat="item in val.data")
                     td(ng-bind="item.Seq")
