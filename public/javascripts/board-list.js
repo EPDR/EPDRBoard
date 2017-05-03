@@ -109,6 +109,8 @@ window['_board'].mod
         },
         search : function(page){
             $s.val.pg.current = page ? page : $s.val.pg.current;
+
+            $s.UI.load = true;
             return fac.search({
                 page : $s.val.pg.current,
                 keyword : $s.val.search.keyword,
@@ -116,6 +118,7 @@ window['_board'].mod
             })
             .then(function(result){
                 $s.fn.set(result.data);
+                $s.UI.load = false;
                 if(result.count == 0){ alert('검색 결과가 없는디'); }
             })
             .then($s.fn.pg.init);
