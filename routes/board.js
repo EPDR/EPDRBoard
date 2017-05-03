@@ -15,15 +15,16 @@ router.get('/', function(req, res, next) {
     var currentPage = 1;
     if(Object.keys(req.query).length > 0 && req.query['page']){
         currentPage = parseInt(req.query['page']);
-
     }
 
     Board.findAndCountAll({
         limit : 20,
-        offset : !isNaN(currentPage) ? (currentPage-1) *  20 : 1
+        offset : !isNaN(currentPage) ? (currentPage - 1) *  20 : 1
     }).then(function(result){
         res.render('board/list' , {title : 'hello list page' , data : result.rows, count : result.count});
-    }, function(){
+    }, function(error){
+        console.log('ERROR OCCURRED');
+        console.log(error);
         res.redirect('../');
     });
 });
@@ -49,7 +50,6 @@ router.get('/list', function(req, res, next){
         res.render('../views/board/list.jade' , {title : 'FUCK ERROR OCCURRED' , error : err});
     })
 });
-
 
 
 module.exports = router;
