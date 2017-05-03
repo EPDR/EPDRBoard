@@ -24,3 +24,20 @@
 th, td {
     text-align : center;
 }
+
+.form-group .keyword {
+    width : 700px;
+    display : inline;
+}
+
+.form-group .options {
+    width : 150px; 
+    display: inline;
+    margin-left : 15px;
+}
+
+.form-group .btn {
+    margin-left : 15px;
+    margin-top : -6px;
+    width : 100px
+}

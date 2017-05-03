@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var sequelize = require('../sequelize.js');
 
-module.exports = sequelize.define('BOARD', {
+var Board = sequelize.define('BOARD', {
   Seq: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -42,3 +42,7 @@ module.exports = sequelize.define('BOARD', {
   freezeTableName: true, 
   timestamps: false
 });
+
+
+
+module.exports = Board;
