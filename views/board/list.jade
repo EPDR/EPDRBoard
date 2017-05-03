@@ -2,26 +2,38 @@ extends layout
 
 block head
     script(type='text/javascript')
-        | window.cnt = #{count}
+        | window.cnt = '#{count}'; window.data = '#{data}';
 
-    script(type='text/javscript' , src="/javascripts/board-list.js")
+    script(type='text/javascript' , src="/javascripts/board-list.js")
+
+    link(rel='stylesheet', href='/stylesheets/list.css')
 block body
     div.container(ng-controller="listCtrl")
 
-    table
-        thead 
-            tr 
-                th seq  
-                th title
-                th write
-                th date
-                th view count
-        tbody
-            if(data)
-                each content in data
-                    tr
-                        td= content.Seq
-                        td= content.Title
-                        td= content.Writer
-                        td= content.Data
-                        td= content.View_count
+        table
+            thead 
+                tr 
+                    th seq  
+                    th title
+                    th writer
+                    th date
+                    th view count
+            tbody
+                tr(ng-repeat="item in val.data")
+                    td(ng-bind="item.Seq")
+                    td(ng-bind="item.Title")
+                    td(ng-bind="item.Writer")
+                    td(ng-bind="item.Date")
+                    td(ng-bind="item.View_count")
+        ul
+            li
+                a(href="#" , ng-click="fn.pg.move(1)") first 
+            li
+                a(href="#" , ng-click="fn.pg.prev()") prev
+            li(ng-repeat='page in val.pg.list' , ng-class="{ 'current' : val.pg.current == page }")
+                a(href="#" , ng-click="fn.pg.move(page)" , ng-bind="page" )
+            li
+                a(href="#" , ng-click="fn.pg.next()") next
+            li 
+                a(href="#" , ng-click="fn.pg.move(val.pg.total_max)") last
+            
