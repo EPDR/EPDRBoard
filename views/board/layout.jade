@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-app="epdrboardApp" ng-strict-di)
     head(lang='ko')
         title= title
 
@@ -8,13 +8,12 @@ html
         link(rel='stylesheet', href='/bower/bootstrap/dist/css/bootstrap.css')
         link(rel='stylesheet', href='/bower/bootstrap/dist/css/bootstrap-theme.css')
         
-        script(type="text/javascript" , src="/bower/jquery/dist/core.js")
         script(type="text/javascript" , src="/bower/jquery/dist/jquery.js")
         script(type="text/javascript" , src="/bower/bootstrap/dist/js/bootstrap.js")
         script(type="text/javascript" , src="/bower/angular/angular.js")
 
         // 공통 스크립트 시작부 
-        script(type="text/javascript" , src="/javascript/global.js")
+        script(type="text/javascript" , src="/javascripts/global.js")
         link(rel="stylesheet" , href="/stylesheets/global.css")
 
         block head

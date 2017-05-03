@@ -1,9 +1,12 @@
 extends layout
 
 block head
+    script(type='text/javascript')
+        | window.cnt = #{count}
 
+    script(type='text/javscript' , src="/javascripts/board-list.js")
 block body
-    h1 Hello World
+    div.container(ng-controller="listCtrl")
 
     table
         thead 
