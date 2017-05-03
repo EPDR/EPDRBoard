@@ -1,5 +1,1 @@
-angular.module('epdrboardApp').controller('listCtrl' , function($s){
-    console.log('hi')
-
-});
-
+window.mod = angular.module('boardApp' , ['ngRoute']);
