@@ -10,6 +10,18 @@ window['_board'].mod
                     "PAGE" : page
                 }
             });
+        },
+        search : function(opt){
+            return $http({
+                url : '/board/list',
+                method : 'get',
+                params : {
+                    'TYPE' : 'LIST',
+                    'PAGE' : opt.page,
+                    'SEARCH_KEYWORD' : opt.keyword,
+                    'SEARCH_TYPE' : opt.type
+                }
+            })
         }
     }
 }])
@@ -29,17 +41,25 @@ window['_board'].mod
             page_cnt : 10,       // 페이징 갯수
             first : 1,
             last : 10,
+        },
+        search : {
+            type : 'TITLE',
+            keyword : ''
         }
     }
 
     $s.fn = {
+        set : function(data){
+            console.log(data);
+            $s.val.data = data.rows;
+            $s.val.cnt = data.count;
+            $s.val.pg.limit = data.limit;
+        },
         init : function(){
             $s.UI.load = true;
 
             return fac.get($s.val.pg.current).then(function(result){
-                $s.val.data = result.data.rows;
-                $s.val.cnt = result.data.count;
-                $s.val.pg.limit = result.data.limit;
+                $s.fn.set(result.data);
             }, function(err){
                 alert('불러오는 중에 에러가 발생했다 이놈아 조금만 기다려');
                 console.log('ERR OCCURED' , err);
@@ -64,8 +84,13 @@ window['_board'].mod
             },
             move : function(page){
                 $s.val.pg.current = page;
-                this.init();
-                $s.fn.init();
+                if($s.val.search.keyword.trim() === ""){    
+                    $s.fn.init()
+                    .then($s.fn.pg.init);
+                }
+                else{
+                    $s.fn.search();
+                }
             },
             next : function(){
                 var _tmp = $s.val.pg.current + 1;
@@ -81,10 +106,56 @@ window['_board'].mod
                     this.move(_tmp);
                 }
             }
+        },
+        search : function(page){
+            $s.val.pg.current = page ? page : $s.val.pg.current;
+            return fac.search({
+                page : $s.val.pg.current,
+                keyword : $s.val.search.keyword,
+                type : $s.val.search.type
+            })
+            .then(function(result){
+                $s.fn.set(result.data);
+                if(result.count == 0){ alert('검색 결과가 없는디'); }
+            })
+            .then($s.fn.pg.init);
         }
     }
 
     $s.fn.init().then($s.fn.pg.init);
-}]).filter('board-date' , function(){
-    return '';
+}]).filter('boardDT' , function(){
+    return function(obj){
+        var _tmp = new Date(obj);
+        return window['_board'].getTimeStamp(_tmp);
+    }
 });
+
+// angular외에 네이티브 스크립트 
+window['_board'].getTimeStamp = function(d){
+    // getTimeStamp
+    function ts(d) {
+        var s =
+            lz(d.getFullYear(), 4) + '-' +
+            lz(d.getMonth() + 1, 2) + '-' +
+            lz(d.getDate(), 2) + ' ' +
+
+            lz(d.getHours(), 2) + ':' +
+            lz(d.getMinutes(), 2) + ':' +
+            lz(d.getSeconds(), 2);
+
+        return s;
+    }
+    // loadingZeros
+    function lz(n, digits) {
+        var zero = '';
+        n = n.toString();
+
+        if (n.length < digits) {
+            for (i = 0; i < digits - n.length; i++)
+            zero += '0';
+        }
+        return zero + n;
+    }
+
+    return ts(d);
+}

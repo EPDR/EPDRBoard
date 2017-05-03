@@ -9,12 +9,22 @@ block head
     link(rel='stylesheet', href='/stylesheets/list.css')
 block body
     div(ng-controller="listCtrl")
+        div(ng-if="UI.load").covered
+            img(src="/images/indicator.svg")
+        
         div.page-header
             h1 BOARD LIST
 
-        div(ng-if="UI.load").covered
-            img(src="/images/indicator.svg")
-    
+        div.form-group
+            input(type='text' ,placeholder='검색어', ng-model="val.search.keyword").form-control.keyword
+            select(ng-model="val.search.type").form-control.options
+                option(value='TITLE') 제목
+                option(value='WRITER') 작성자
+                option(value='CONTENT') 내용
+            button(type='button', ng-click="fn.search(1)").btn.btn-md.btn-success 검색
+        hr 
+
+
         table.table.table-striped
             thead 
                 tr 
@@ -29,7 +39,7 @@ block body
                     td
                         a(href="#{{item.Seq}}" , ng-bind="item.Title") 
                     td(ng-bind="item.Writer")
-                    td(ng-bind="item.Date")
+                    td(ng-bind="(item.Date | boardDT)")
                     td(ng-bind="item.View_count")
         div(style='text-align : center;')
             ul.pagination
