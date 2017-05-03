@@ -8,34 +8,38 @@ block head
 
     link(rel='stylesheet', href='/stylesheets/list.css')
 block body
-    div.container(ng-controller="listCtrl")
+    div(ng-controller="listCtrl")
+        div.page-header
+            h1 BOARD LIST
+
         div(ng-if="UI.load").covered
             img(src="/images/indicator.svg")
-        
-        table
+    
+        table.table.table-striped
             thead 
                 tr 
-                    th seq  
-                    th title
-                    th writer
-                    th date
-                    th view count
+                    th 번호  
+                    th 제목
+                    th 작성자
+                    th 작성일
+                    th 조회수
             tbody
                 tr(ng-repeat="item in val.data")
                     td(ng-bind="item.Seq")
-                    td(ng-bind="item.Title")
+                    td
+                        a(href="#{{item.Seq}}" , ng-bind="item.Title") 
                     td(ng-bind="item.Writer")
                     td(ng-bind="item.Date")
                     td(ng-bind="item.View_count")
-        ul
-            li
-                a(href="#" , ng-click="fn.pg.move(1)") first 
-            li
-                a(href="#" , ng-click="fn.pg.prev()") prev
-            li(ng-repeat='page in val.pg.list' , ng-class="{ 'current' : val.pg.current == page }")
-                a(href="#" , ng-click="fn.pg.move(page)" , ng-bind="page" )
-            li
-                a(href="#" , ng-click="fn.pg.next()") next
-            li 
-                a(href="#" , ng-click="fn.pg.move(val.pg.total_max)") last
-            
+        div(style='text-align : center;')
+            ul.pagination
+                li
+                    a(href="#" , ng-click="fn.pg.move(1)") first 
+                li
+                    a(href="#" , ng-click="fn.pg.prev()") prev
+                li(ng-repeat='page in val.pg.list' , ng-class="{ 'active' : val.pg.current == page }")
+                    a(href="#" , ng-click="fn.pg.move(page)" , ng-bind="page" )
+                li
+                    a(href="#" , ng-click="fn.pg.next()") next
+                li 
+                    a(href="#" , ng-click="fn.pg.move(val.pg.total_max)") last
