@@ -3,51 +3,43 @@ var router = express.Router();
 
 var Board = require('../DB/Models/Board.js');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-    //Board.findAll().then(function(data , err){
-    //    res.render('board/list' , { title :'hello list page' , data : data });    
-    //} , function(){
-    //    res.render('../error.jade');
-    //})
-    //
-    // GET PAGES
-    var currentPage = 1;
-    if(Object.keys(req.query).length > 0 && req.query['page']){
-        currentPage = parseInt(req.query['page']);
-    }
+// VIEW PAGING
 
-    Board.findAndCountAll({
-        limit : 20,
-        offset : !isNaN(currentPage) ? (currentPage - 1) *  20 : 1
-    }).then(function(result){
-        res.render('board/list' , {title : 'hello list page' , data : result.rows, count : result.count});
-    }, function(error){
-        console.log('ERROR OCCURRED');
-        console.log(error);
-        res.redirect('../');
-    });
+router.get('/', function(req, res, next) {
+    res.render('board/list');
 });
 
 // ROUTER API 
-
 router.get('/list', function(req, res, next){
+    var _state = {};
+    
     var _offset = 0 ;
-    var _cnt = 0 ;
     var _limit = 20;
+    var _attr = [];
 
-    if(Object.keys(req.query).indexOf('page') >= 0 ){
-        var _tmp = parseInt(req.query['page']);
+    if(Object.keys(req.query).indexOf('PAGE') >= 0 ){
+        var _tmp = parseInt(req.query['PAGE']);
         _offset = isNaN(_tmp) ? 0 : (_tmp - 1) * _limit;
     }
+    
+    if(req.query['TYPE'] === "LIST"){
+        _attr.push('Seq');
+        _attr.push('Title');
+        _attr.push('Writer');
+        _attr.push('Date');
+        _attr.push('View_count');
+        _state['attributes'] = _attr;
+    }
+    
+    _state['offset'] = _offset;
+    _state['limit'] = _limit;
 
-    Board.findAndCountAll({
-        limit : _limit,
-        offset : _offset
-    }).then(function(result){
-        res.render('../views/board/list.jade' , {title : 'HELLO FUCKIN WORLD' , data : result.rows , cnt : result.count});
+    Board.findAndCountAll(_state).then(function(result){
+        result['limit'] = _limit;
+        
+        res.json(result);
     }, function(err){
-        res.render('../views/board/list.jade' , {title : 'FUCK ERROR OCCURRED' , error : err});
+        res.send(err);
     })
 });
 
