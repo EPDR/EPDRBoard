@@ -14,6 +14,10 @@ window['_board'].mod
     }
 }])
 .controller('listCtrl' , ['$scope'  , 'boardFac' , function($s , fac){
+    $s.UI = {
+        load : false
+    };
+
     $s.val = {
         data : [],
         cnt : 0,
@@ -30,7 +34,8 @@ window['_board'].mod
 
     $s.fn = {
         init : function(){
-            console.log($s.val.pg.current);
+            $s.UI.load = true;
+
             return fac.get($s.val.pg.current).then(function(result){
                 $s.val.data = result.data.rows;
                 $s.val.cnt = result.data.count;
@@ -38,6 +43,9 @@ window['_board'].mod
             }, function(err){
                 alert('불러오는 중에 에러가 발생했다 이놈아 조금만 기다려');
                 console.log('ERR OCCURED' , err);
+            })
+            .then(function(){
+                $s.UI.load = false;
             })
         },
         pg : {

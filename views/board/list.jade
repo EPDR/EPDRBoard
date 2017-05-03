@@ -9,7 +9,9 @@ block head
     link(rel='stylesheet', href='/stylesheets/list.css')
 block body
     div.container(ng-controller="listCtrl")
-
+        div(ng-if="UI.load").covered
+            img(src="/images/indicator.svg")
+        
         table
             thead 
                 tr 
