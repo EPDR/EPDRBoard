@@ -9,6 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/test' , function(req , res , next){
+  console.log(__rootdirname);
   res.sendFile(path.join(__dirname + '/docs/index.html'))
 })
 
