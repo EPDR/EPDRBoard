@@ -2,15 +2,30 @@ var express = require('express');
 var router = express.Router();
 
 var Board = require('../DB/Models/Board.js');
-
 // VIEW PAGING
 
 router.get('/', function(req, res, next) {
     res.render('board/list');
 });
 
-router.get('/board', function(req, res, next){
-    res.render('board/detail');
+router.get('/detail', function(req, res, next){
+    var contentid = req.param('page');
+    var sum = 1
+    Board.findOne({
+        where: {seq: contentid},
+        attributes: ['Seq', 'Title', 'Content', 'Writer', 'View_count','Date'],
+    }).then(function(data){
+        console.log(data);
+        Board.update(
+            {View_count: (data.dataValues.View_count + 1) + '' },
+            {where: {seq: contentid},returning: true})
+        .then(function(result) {
+            //res.send(data.dataValues);
+            res.render('../views/board/detail' , { data : data.dataValues });
+        } , function(err){
+            res.redirect('/');
+        });        
+    });
 });
 
 
