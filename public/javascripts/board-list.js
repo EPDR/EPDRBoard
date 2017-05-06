@@ -152,22 +152,30 @@ window['_board'].mod
             .then($s.fn.pg.init);
         },
         del : {
+            init : function(){
+                $s.val.del.pw = "";
+                $s.UI.fn.layer.del(false);
+            },
             confirm : function(seq){
                 // 1. 현재 seq 저장
                 $s.val.del.seq = seq;
                 // 2. 비밀번호 입력 레이어 출력
                 $s.UI.fn.layer.del(true);
             },
-            proc : function(){
+            proc : function(){ 
+                if(!confirm('정말 삭제할까요?')){ return; }
                 // 삭제 프로세스 실행
                 fac.del.proc($s.val.del)
                 .then(function(result){
                     console.log(data);
                     if(!result.data.isSuccess){
                         alert(result.data.mesg);
+                        $s.val.del.pw = "";
                     }
                     else{ 
-                            
+                        $s.fn.del.init();
+                        alert('삭제 되었습니다.');
+                        location.reload();
                     }
                 } , function(err){
                     alert(err.mesg)

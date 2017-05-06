@@ -102,23 +102,16 @@ router.post('/delete' , function(req , res , next){
             console.log(_pw)
         }
         else{
-            /*
-            sequelize.Transaction(function(t){
-                return Board.destroy({
-                    where : {
-                        Seq : req.body.SEQ
-                    }
-                } , {Transaction : t});
-            }).then(function(result){
-                console.log('성공');
+            Board.destroy({
+                where : {Seq : req.body.SEQ}
+            } )
+            .then(function(result){
                 console.log(result);
-                res.json({});
-            } , function(err){
-                console.log('실패');
-                console.log(err);
-                res.json({});
+                res.json({isSuccess : true});
+            } , function(result){
+                console.log(result);
+                res.json({isSuccess : false});
             });
-            */
         }
     } , function(err){
         console.log('ERR OCCURRED' , err);
