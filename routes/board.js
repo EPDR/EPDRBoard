@@ -9,6 +9,11 @@ router.get('/', function(req, res, next) {
     res.render('board/list');
 });
 
+roterz.get('/board', function(req, res, next){
+    res.render('board/detail');
+});
+
+
 // ROUTER API 
 router.get('/list', function(req, res, next){
     var _state = {};
