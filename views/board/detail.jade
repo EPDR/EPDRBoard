@@ -10,15 +10,21 @@ block body
             img(src="/images/indicator.svg")
         
         div.page-header
-            h1 BOARD DETAIL
-        
-        div.form-group.content-title
-            input(type='text' placeholder='제목을 입력해주세요').form-control
-            div.btn-group
-                button(type='button').btn.btn-md.btn-success 글쓰기
-                button(type='button').btn.btn-md.btn-danger 취소
+            h1 제목
 
+        div.content-info
+            div.info-writer 작성자 : 
+                span 유경수
+            div.info-date 작성일 : 
+                span 2017-01-02
+            div.info-count 조회수 : 
+                span 0
+        
         hr
 
         div.form-group.content-body
-            textarea.form-control
+            div.form-control.content
+        
+        div
+            button(type="button" style='margin-right : 15px;').btn.btn-lg.btn-default 목록
+            button(type="button").btn.btn-lg.btn-warning 수정

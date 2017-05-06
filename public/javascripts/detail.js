@@ -3,4 +3,5 @@ window['_board'].mod
     $s.UI = {
         load : false
     }
+
 }]);
