@@ -11,6 +11,8 @@ var board = require('./routes/board');
 
 var app = express();
 
+global.__rootdirname = path.resolve(__dirname);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

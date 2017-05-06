@@ -1,4 +1,5 @@
 var express = require('express');
+var sequelize = require('sequelize');
 var router = express.Router();
 
 var Board = require('../DB/Models/Board.js');
@@ -27,7 +28,6 @@ router.get('/detail', function(req, res, next){
         });        
     });
 });
-
 
 // ROUTER API 
 router.get('/list', function(req, res, next){
@@ -89,5 +89,51 @@ router.get('/list', function(req, res, next){
     })
 });
 
+router.post('/delete' , function(req , res , next){
+    if(Object.keys(req.body).indexOf('SEQ') < 0 ||
+        Object.keys(req.body).indexOf('PW') < 0){
+        res.json({
+            isSuccess : false,
+            mesg : '비밀번호 혹은 글 번호가 누락되었습니다.'
+        });
+    }
+    // 1. 패스워드 확인 
+    Board.findOne({
+        attributes : ['Password'],
+        where : {
+            Seq : req.body.SEQ
+        }
+    })
+    .then(function(result){
+        var _pw = result.dataValues.Password
+
+        if(_pw != req.body.PW){
+            res.json({
+                isSuccess : false, 
+                mesg : '비밀번호가 올바르지 않습니다' 
+            });
+
+            console.log(_pw)
+        }
+        else{
+            Board.destroy({
+                where : {Seq : req.body.SEQ}
+            } )
+            .then(function(result){
+                console.log(result);
+                res.json({isSuccess : true});
+            } , function(result){
+                console.log(result);
+                res.json({isSuccess : false});
+            });
+        }
+    } , function(err){
+        console.log('ERR OCCURRED' , err);
+        res.json({ success : 200 })
+    })
+    // 2. 삭제 프로세스 실행 
+    // 3. 값 던져줌
+
+})
 
 module.exports = router;
