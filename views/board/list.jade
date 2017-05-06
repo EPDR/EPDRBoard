@@ -11,7 +11,17 @@ block body
     div(ng-controller="listCtrl")
         div(ng-if="UI.load").covered
             img(src="/images/indicator.svg")
-        
+        div(ng-if='UI.bg').covered
+        div(ng-if='UI.layer.del').panel.panel-danger.layer-del
+            div.panel-heading
+                h3(style='display:inline-block').panel-title 글 삭제하기
+                span(style='float:right ; cursor:pointer' , aria-hidden='true' , ng-click='UI.fn.layer.del(false)').glyphicon.glyphicon-remove
+            div.panel-body
+                p 비밀번호를 입력해주세요.
+                input(type='password' , placeholder='비밀번호' , ng-model='val.del.pw').form-control
+                button(type='button' , ng-click='fn.del.proc()').btn.btn-lg.btn-danger 삭제하기
+
+
         div.page-header
             h1 BOARD LIST
 
@@ -32,7 +42,8 @@ block body
                     th 제목
                     th(style='width:15%') 작성자
                     th(style='width:25%') 작성일
-                    th(style='width:10%') 조회수
+                    th(style='width:8%') 조회수
+                    th(style='width:10%') 삭제
             tbody
                 tr(ng-repeat="item in val.data")
                     td(ng-bind="item.Seq")
@@ -41,6 +52,11 @@ block body
                     td(ng-bind="item.Writer")
                     td(ng-bind="(item.Date | boardDT)")
                     td(ng-bind="item.View_count")
+                    td 
+                        a(href="/board/proc/{{item.Seq}}") 
+                            button(type='button').btn.btn-md.btn-warning 수정
+                            
+                        button(type='button' , ng-click='fn.del.confirm(item.Seq)').btn.btn-md.btn-danger 삭제
         div(style='text-align : center;')
             ul.pagination
                 li
@@ -56,3 +72,4 @@ block body
                 
             button(type="button" , class='btn btn-md btn-default', style="float : right; margin-top:20px;") 
                 a(href="/board/proc") 글쓰기
+        

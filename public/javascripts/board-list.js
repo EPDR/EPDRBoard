@@ -22,12 +22,36 @@ window['_board'].mod
                     'SEARCH_TYPE' : opt.type
                 }
             })
+        },
+        del : {
+            proc : function(params){
+                return $http({
+                    url : '/board/delete',
+                    method : 'post',
+                    data : {
+                        'SEQ' : params.seq,
+                        'PW' : params.pw
+                    }
+                })
+            }
         }
     }
 }])
-.controller('listCtrl' , ['$scope'  , 'boardFac' , function($s , fac){
+.controller('listCtrl' , ['$scope' , '$q' , 'boardFac' , function($s,$q , fac){
     $s.UI = {
-        load : false
+        load : false,
+        bg : false,
+        layer : {
+            del : false
+        },
+        fn : {
+            layer : {
+                del : function(isVisible){
+                    $s.UI.bg = isVisible;
+                    $s.UI.layer.del = isVisible;
+                }
+            }
+        }
     };
 
     $s.val = {
@@ -45,6 +69,10 @@ window['_board'].mod
         search : {
             type : 'TITLE',
             keyword : ''
+        },
+        del :{
+            seq : 0,
+            pw : ''
         }
     }
 
@@ -122,6 +150,29 @@ window['_board'].mod
                 if(result.count == 0){ alert('검색 결과가 없는디'); }
             })
             .then($s.fn.pg.init);
+        },
+        del : {
+            confirm : function(seq){
+                // 1. 현재 seq 저장
+                $s.val.del.seq = seq;
+                // 2. 비밀번호 입력 레이어 출력
+                $s.UI.fn.layer.del(true);
+            },
+            proc : function(){
+                // 삭제 프로세스 실행
+                fac.del.proc($s.val.del)
+                .then(function(result){
+                    console.log(data);
+                    if(!result.data.isSuccess){
+                        alert(result.data.mesg);
+                    }
+                    else{ 
+                            
+                    }
+                } , function(err){
+                    alert(err.mesg)
+                });
+            }
         }
     }
 
