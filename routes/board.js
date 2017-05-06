@@ -9,7 +9,8 @@ router.get('/', function(req, res, next) {
     res.render('board/list');
 });
 
-router.get('/board', function(req, res, next){
+router.get('/detail', function(req, res, next){
+    
     res.render('board/detail');
 });
 

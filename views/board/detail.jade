@@ -1,9 +1,9 @@
 extends layout
 
 block head
-    script(type="text/javascript" , src="/javascript/detail.js")
+    script(type="text/javascript" , src="/javascripts/detail.js")
+    link(rel="stylesheet" , href="/stylesheets/detail.css")
 
-    link(type="stylesheet" , href='/stylesheets/detail.css')
 block body
     div(ng-controller='detailCtrl')
         div(ng-if="UI.load").covered
@@ -12,6 +12,13 @@ block body
         div.page-header
             h1 BOARD detail
         
+        div.form-group.content-title
+            input(type='text' placeholder='제목을 입력해주세요').form-control
+            div.btn-group
+                button(type='button').btn.btn-md.btn-success 글쓰기
+                button(type='button').btn.btn-md.btn-danger 취소
+
         hr
 
-        
+        div.form-group.content-body
+            textarea.form-control
