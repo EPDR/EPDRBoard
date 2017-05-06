@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     res.render('board/list');
 });
 
-roterz.get('/board', function(req, res, next){
+router.get('/board', function(req, res, next){
     res.render('board/detail');
 });
 
