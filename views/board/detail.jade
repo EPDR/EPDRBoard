@@ -3,7 +3,8 @@ extends layout
 block head
     script(type="text/javascript" , src="/javascripts/detail.js")
     link(rel="stylesheet" , href="/stylesheets/detail.css")
-
+    script(type='text/javascript')
+        | window.foo = '#{data}';
 block body
     div(ng-controller='detailCtrl')
         div(ng-if="UI.load").covered
