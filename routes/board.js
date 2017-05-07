@@ -10,19 +10,18 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/detail', function(req, res, next){
-    var contentid = req.param('page');
-    var sum = 1
+    var contentid = req.query['seq'];
     Board.findOne({
         where: {seq: contentid},
         attributes: ['Seq', 'Title', 'Content', 'Writer', 'View_count','Date'],
     }).then(function(data){
-        console.log(data);
         Board.update(
             {View_count: (data.dataValues.View_count + 1) + '' },
             {where: {seq: contentid},returning: true})
         .then(function(result) {
             //res.send(data.dataValues);
-            res.render('../views/board/detail' , { data : data.dataValues });
+            console.log('result' , data);
+            res.render('../views/board/detail' , { data : JSON.stringify(data.dataValues) });
         } , function(err){
             res.redirect('/');
         });        

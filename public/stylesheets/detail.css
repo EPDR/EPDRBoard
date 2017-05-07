@@ -17,6 +17,8 @@
     height : 400px;
     resize : none;
     overflow-y : auto;
+    font-size : 20px;
+    
 }
 
 .content-info {
@@ -26,7 +28,7 @@
 
 .content-info .info-writer{
     float : left;
-    width : 70%;
+    width : 65%;
     margin-left : 20px;
 }
 .content-info .info-date {
