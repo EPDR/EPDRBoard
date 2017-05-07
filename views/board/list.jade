@@ -48,7 +48,7 @@ block body
                 tr(ng-repeat="item in val.data")
                     td(ng-bind="item.Seq")
                     td
-                        a(href="/board/detail?page={{item.Seq}}" , ng-bind="item.Title") 
+                        a(href="/board/detail?seq={{item.Seq}}" , ng-bind="item.Title") 
                     td(ng-bind="item.Writer")
                     td(ng-bind="(item.Date | boardDT)")
                     td(ng-bind="item.View_count")

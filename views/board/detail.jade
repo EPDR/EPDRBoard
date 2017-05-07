@@ -11,21 +11,22 @@ block body
             img(src="/images/indicator.svg")
         
         div.page-header
-            h1 제목
+            h1(ng-bind="val.item.Title") #{data.Title}
 
         div.content-info
             div.info-writer 작성자 : 
-                span 유경수
+                span(ng-bind="val.item.Writer") #{data.Writer}
             div.info-date 작성일 : 
-                span 2017-01-02
+                span(ng-bind="val.item.Date | boardDT") #{data.Date}
             div.info-count 조회수 : 
-                span 0
+                span(ng-bind="val.item.View_count") #{data.View_count}
         
         hr
 
         div.form-group.content-body
-            div.form-control.content
+            div.form-control.content(ng-bind="val.item.Content") #{data.Content}
         
         div
-            button(type="button" style='margin-right : 15px;').btn.btn-lg.btn-default 목록
+            a(href="/board")
+                button(type="button" style='margin-right : 15px;').btn.btn-lg.btn-default 목록
             button(type="button").btn.btn-lg.btn-warning 수정
